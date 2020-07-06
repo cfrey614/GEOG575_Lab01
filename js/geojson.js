@@ -5,11 +5,25 @@ function createMap(){
         zoom: 2
     });
 
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        id: 'mapbox/streets-v11',
-        accessToken: 'pk.eyJ1IjoiY2ZyZXk2MTQiLCJhIjoiY2tibnZmYXdhMXd2MTJ2cW45NTMzcnpyZyJ9.7yWLYNArDCw4-HBVWx_9SA'
-    }).addTo(map);
+   var tilesStreets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery   <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoiamhjYXJuZXkiLCJhIjoiY2pmbHE2ZTVlMDJnbTJybzdxNTNjaWsyMiJ9.hoiyrXTX3pOuEExAnhUtIQ'
+    });
+    var tilesAerial = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery   <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.satellite',
+        accessToken: 'pk.eyJ1IjoiamhjYXJuZXkiLCJhIjoiY2pmbHE2ZTVlMDJnbTJybzdxNTNjaWsyMiJ9.hoiyrXTX3pOuEExAnhUtIQ'
+    });
+    
+    var baseTilesets = {
+        "Streets": tilesStreets,
+        "Aerial": tilesAerial
+    };
+    
+    L.control.layers(baseTilesets).addTo(map);
 
     getData(map);
 };
@@ -348,17 +362,7 @@ function updateLegend(map, attribute){
 
 };;
 
-function makeLineChart(data){
-    var chart = new CanvasJS.Chart("chartContainer",{
-        title:{
-            text: "Terrorist Attacks"
-        },
-        data: [{
-            type: "line",
-            attributes : attributes,
-        }]
-    })
-};
+
 
 //jquery method loads page
 $(document).ready(createMap);
